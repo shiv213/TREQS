@@ -1,0 +1,1 @@
+{"sql_pred": "select count ( distinct demographic.\"subject_id\" ) from demographic inner join diagnoses on demographic.hadm_id = diagnoses.hadm_id where diagnoses.\"short_title\" = vv vv <stop>"}

@@ -11,9 +11,9 @@ parser = argparse.ArgumentParser()
 '''
 Use in the framework and cannot remove.
 '''
-parser.add_argument('--task', default='train', help='train | validate | test | evaluate')
+parser.add_argument('--task', default='custom', help='train | validate | test | evaluate')
 
-parser.add_argument('--data_dir', default='mimicsql_data/mimicsql_natural', help='directory that store the data.')
+parser.add_argument('--data_dir', default='mimicsql_data/mimicsql_natural_v2', help='directory that store the data.')
 parser.add_argument('--file_train', default='train.json', help='Training')
 parser.add_argument('--file_val', default='dev.json', help='validation')
 parser.add_argument('--file_test', default='test.json', help='test data')
@@ -25,7 +25,8 @@ parser.add_argument('--val_num_batch', type=int, default=100, help='how many bat
 parser.add_argument('--nbestmodel', type=int, default=5, help='How many models you want to keep?')
 
 parser.add_argument('--continue_training', type=str2bool, default=True, help='Do you want to continue?')
-parser.add_argument('--train_base_model', type=str2bool, default=False, help='True: Use Pretrained Param | False: Transfer Learning')
+parser.add_argument('--train_base_model', type=str2bool, default=False,
+                    help='True: Use Pretrained Param | False: Transfer Learning')
 parser.add_argument('--use_move_avg', type=str2bool, default=False, help='move average')
 parser.add_argument('--use_optimal_model', type=str2bool, default=True, help='Do you want to use the best model?')
 parser.add_argument('--model_optimal_key', default='0,0', help='epoch,batch')
@@ -58,16 +59,21 @@ parser.add_argument('--step_decay', type=float, default=0.8, help='---')
 
 args = parser.parse_args()
 
-if args.task == 'train' or args.task == 'validate' or args.task == 'test':
+if args.task == 'train' or args.task == 'validate' or args.task == 'test' or args.task == 'custom':
     from model import modelABS
     model = modelABS(args)
+
 if args.task == "train":
     model.train()
 if args.task == "validate":
     model.validate()
 if args.task == "test":
     model.test()
+if args.task == "custom":
+    model.custom()
+
 
 if args.task == "evaluate":
     from LeafNATS.eval_scripts.eval_pyrouge_v2 import run_pyrouge
+
     run_pyrouge(args)

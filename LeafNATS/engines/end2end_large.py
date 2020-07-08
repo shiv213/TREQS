@@ -143,7 +143,7 @@ class End2EndBase(object):
                     print("Try *_{}_{}.model".format(cc_model[0], cc_model[1]))
                     for model_name in self.train_models:
                         fl_ = os.path.join(
-                            out_dir, model_name+'_'+str(cc_model[0])+'_'+str(cc_model[1])+'.model')
+                            out_dir, model_name + '_' + str(cc_model[0]) + '_' + str(cc_model[1]) + '.model')
                         self.train_models[model_name].load_state_dict(
                             torch.load(fl_, map_location=lambda storage, loc: storage))
                 except:
@@ -151,7 +151,7 @@ class End2EndBase(object):
                     print("Try *_{}_{}.model".format(cc_model[0], cc_model[1]))
                     for model_name in self.train_models:
                         fl_ = os.path.join(
-                            out_dir, model_name+'_'+str(cc_model[0])+'_'+str(cc_model[1])+'.model')
+                            out_dir, model_name + '_' + str(cc_model[0]) + '_' + str(cc_model[1]) + '.model')
                         self.train_models[model_name].load_state_dict(
                             torch.load(fl_, map_location=lambda storage, loc: storage))
                 print(
@@ -198,7 +198,7 @@ class End2EndBase(object):
                 if batch_id % self.args.checkpoint == 0:
                     for model_name in self.train_models:
                         fmodel = open(os.path.join(
-                            out_dir, model_name+'_'+str(epoch)+'_'+str(batch_id)+'.model'), 'wb')
+                            out_dir, model_name + '_' + str(epoch) + '_' + str(batch_id) + '.model'), 'wb')
                         torch.save(
                             self.train_models[model_name].state_dict(), fmodel)
                         fmodel.close()
@@ -207,15 +207,15 @@ class End2EndBase(object):
                     print('epoch={}, batch={}, loss={}, time_escape={}s={}h'.format(
                         epoch, batch_id,
                         np.round(float(loss.data.cpu().numpy()), 4),
-                        np.round(end_time-start_time, 2),
-                        np.round((end_time-start_time)/3600.0, 4)
+                        np.round(end_time - start_time, 2),
+                        np.round((end_time - start_time) / 3600.0, 4)
                     ))
                     self.print_info_train()
                 del loss
 
             for model_name in self.train_models:
                 fmodel = open(os.path.join(
-                    out_dir, model_name+'_'+str(epoch)+'_'+str(batch_id)+'.model'), 'wb')
+                    out_dir, model_name + '_' + str(epoch) + '_' + str(batch_id) + '.model'), 'wb')
                 torch.save(self.train_models[model_name].state_dict(), fmodel)
                 fmodel.close()
 
@@ -249,7 +249,7 @@ class End2EndBase(object):
             while 1:
                 model_para_files = []
                 model_para_files = glob.glob(os.path.join(
-                    '..', 'nats_results', sorted(list(self.train_models))[0]+'*.model'))
+                    '..', 'nats_results', sorted(list(self.train_models))[0] + '*.model'))
                 for j in range(len(model_para_files)):
                     arr = re.split(r'\_|\.', model_para_files[j])
                     arr = [int(arr[-3]), int(arr[-2]), model_para_files[j]]
@@ -270,7 +270,7 @@ class End2EndBase(object):
                             for model_name in self.train_models:
                                 fl_tmp = os.path.join(
                                     '..', 'nats_results',
-                                    model_name+'_'+str(fl_[0])+'_'+str(fl_[1])+'.model')
+                                    model_name + '_' + str(fl_[0]) + '_' + str(fl_[1]) + '.model')
                                 self.train_models[model_name].load_state_dict(
                                     torch.load(fl_tmp, map_location=lambda storage, loc: storage))
                         except:
@@ -289,25 +289,24 @@ class End2EndBase(object):
                     if self.args.val_num_batch > val_batch:
                         self.args.val_num_batch = val_batch
                     for batch_id in range(self.args.val_num_batch):
-
                         self.build_batch(batch_id)
                         loss = self.build_pipelines()
 
                         losses.append(loss.data.cpu().numpy())
-                        show_progress(batch_id+1, self.args.val_num_batch)
+                        show_progress(batch_id + 1, self.args.val_num_batch)
                     print()
                     losses = np.array(losses)
                     end_time = time.time()
                     if self.args.use_move_avg:
                         try:
-                            losses_out = 0.9*losses_out + \
-                                0.1*np.average(losses)
+                            losses_out = 0.9 * losses_out + \
+                                         0.1 * np.average(losses)
                         except:
                             losses_out = np.average(losses)
                     else:
                         losses_out = np.average(losses)
                     best_arr.append(
-                        [fl_[2], fl_[0], fl_[1], losses_out, end_time-start_time])
+                        [fl_[2], fl_[0], fl_[1], losses_out, end_time - start_time])
                     best_arr = sorted(best_arr, key=lambda bb: bb[3])
                     if best_arr[0][0] == fl_[2]:
                         out_dir = os.path.join('..', 'nats_results', 'model')
@@ -318,13 +317,13 @@ class End2EndBase(object):
                         os.mkdir(out_dir)
                         for model_name in self.base_models:
                             fmodel = open(os.path.join(
-                                out_dir, model_name+'.model'), 'wb')
+                                out_dir, model_name + '.model'), 'wb')
                             torch.save(
                                 self.base_models[model_name].state_dict(), fmodel)
                             fmodel.close()
                         for model_name in self.train_models:
                             fmodel = open(os.path.join(
-                                out_dir, model_name+'.model'), 'wb')
+                                out_dir, model_name + '.model'), 'wb')
                             torch.save(
                                 self.train_models[model_name].state_dict(), fmodel)
                             fmodel.close()
@@ -346,14 +345,14 @@ class End2EndBase(object):
                             for model_name in self.train_models:
                                 fl_tmp = os.path.join(
                                     '..', 'nats_results',
-                                    model_name+'_'+str(itm[1])+'_'+str(itm[2])+'.model')
+                                    model_name + '_' + str(itm[1]) + '_' + str(itm[2]) + '.model')
                                 os.unlink(fl_tmp)
                     fout = open(val_file, 'w')
                     for itm in best_arr:
                         if len(itm) == 0:
                             continue
                         fout.write(' '.join([itm[0], str(itm[1]), str(
-                            itm[2]), str(itm[3]), str(itm[4])])+'\n')
+                            itm[2]), str(itm[3]), str(itm[4])]) + '\n')
                     fout.close()
 
     def test(self):
@@ -403,7 +402,7 @@ class End2EndBase(object):
 
             for model_name in self.train_models:
                 model_optimal_file = os.path.join(
-                    '..', 'nats_results', model_name+model_optimal_key)
+                    '..', 'nats_results', model_name + model_optimal_key)
                 self.train_models[model_name].load_state_dict(torch.load(
                     model_optimal_file, map_location=lambda storage, loc: storage))
 
@@ -442,9 +441,100 @@ class End2EndBase(object):
 
                 end_time = time.time()
                 show_progress(batch_id, _nbatch, str(
-                    (end_time-start_time)/3600)[:8]+"h")
+                    (end_time - start_time) / 3600)[:8] + "h")
             fout.close()
             print()
+
+    def custom(self):
+        '''
+        RETURN RESULTS FROM ONE INPUT
+        '''
+        self.args.batch_size = 1
+
+        self.build_vocabulary()
+        self.build_models()
+        pprint(self.base_models)
+        pprint(self.train_models)
+        if len(self.base_models) > 0:
+            self.init_base_model_params()
+
+        _nbatch = create_batch_file(
+            path_data=self.args.data_dir,
+            path_work=os.path.join('..', 'nats_results'),
+            is_shuffle=False,
+            fkey_=self.args.task,
+            file_="custom.json",
+            batch_size=self.args.batch_size
+        )
+        print('The number of samples (custom): {}'.format(_nbatch))
+
+        # for model_name in self.base_models:
+        #     self.base_models[model_name].eval()
+        # for model_name in self.train_models:
+        #     self.train_models[model_name].eval()
+        with torch.no_grad():
+            # if self.args.use_optimal_model:
+            #     model_valid_file = os.path.join(
+            #         '..', 'nats_results', 'model_validate.txt')
+            #     fp = open(model_valid_file, 'r')
+            #     for line in fp:
+            #         arr = re.split(r'\s', line[:-1])
+            #         model_optimal_key = ''.join(
+            #             ['_', arr[1], '_', arr[2], '.model'])
+            #         break
+            #     fp.close()
+            # else:
+            #     arr = re.split(r'\D', self.args.model_optimal_key)
+            #     model_optimal_key = ''.join(
+            #         ['_', arr[0], '_', arr[1], '.model'])
+            model_optimal_key = "_3_400.model"
+            print("You choose to use *{} for decoding.".format(model_optimal_key))
+
+            for model_name in self.train_models:
+                model_optimal_file = os.path.join(
+                    '..', 'nats_results', model_name + model_optimal_key)
+                self.train_models[model_name].load_state_dict(torch.load(
+                    model_optimal_file, map_location=lambda storage, loc: storage))
+
+            start_time = time.time()
+            output_file = os.path.join('evaluation/generated_sql',
+                                       self.args.file_output)
+            data_check = []
+            try:
+                self.args.continue_decoding
+            except:
+                self.args.continue_decoding = True
+            if os.path.exists(output_file) and self.args.continue_decoding:
+                fchk = open(output_file, 'r')
+                for line in fchk:
+                    data_check.append(line)
+                fchk.close()
+                data_check = data_check[:-1]
+                fchk = open(output_file, 'w')
+                for line in data_check:
+                    fchk.write(line)
+                fchk.close()
+            else:
+                fout = open(output_file, 'w')
+                fout.close()
+            try:
+                fout = open(output_file, 'a')
+            except:
+                fout = open(output_file, 'w')
+            for batch_id in range(_nbatch):
+                if batch_id < len(data_check):
+                    continue
+                self.build_batch(batch_id)
+                self.test_worker()
+                json.dump(self.test_data, fout)
+                fout.write('\n')
+
+                end_time = time.time()
+                show_progress(batch_id, _nbatch, str(
+                    (end_time - start_time) / 3600)[:8] + "h")
+            fout.close()
+            print()
+
 
     def app2Go(self):
         '''

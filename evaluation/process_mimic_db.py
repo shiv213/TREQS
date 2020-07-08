@@ -8,7 +8,7 @@ from process_mimic_db.utils import *
 from process_mimic_db.process_tables import *
 
 # Specify the path to the downloaded MIMIC III data
-data_dir = PATH_TO_MIMIC_DATA
+data_dir = "/mimicsql_data/mimicsql_natural_v2"
 # Path to the generated mimic.db. No need to update.
 out_dir = 'mimic_db'
 

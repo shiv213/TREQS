@@ -178,5 +178,5 @@ class modelSeq2SeqBase(End2EndBase):
             myseq = myseq.data.cpu().numpy().tolist()
             myseq = [self.batch_data['id2vocab'][idx] for idx in myseq]
 
-        self.test_data['sql_gold'] = ' '.join(self.batch_data['trg_txt'][0])
+        # self.test_data['sql_gold'] = ' '.join(self.batch_data['trg_txt'][0])
         self.test_data['sql_pred'] = ' '.join(myseq)
