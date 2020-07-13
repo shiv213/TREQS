@@ -1,1 +1,1 @@
-{"question_refine_tok": ["what", "is", "the", "average", "time", "on", "ecmo", "for", "neonatal", "patients", "with", "vv", "?"],"sql_tok": []}
+{"question_refine_tok": ["how", "many", "patients", "were", "on", "ecmo", "more", "than", "1", "week", "and", "discharged", "alive?"],"sql_tok": []}
